@@ -7,7 +7,7 @@ import java.util.HashMap;
 // Simple main class.
 class Node {
     public ArrayList<Node> children;
-    
+
 
     public static TextNode text(String data) {
 	return new TextNode(new ArrayList<Node>(), data);
