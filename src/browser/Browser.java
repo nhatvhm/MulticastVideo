@@ -41,7 +41,8 @@ public class Browser extends JPanel {
     // Bandaid method for now.
     public void updateContent(String htmlData) {
 	try {
-	    content.setPage(htmlData);
+	    //content.setPage(htmlData);
+		content.setPage(htmlData);
 	} catch(IOException e) {
 		e.printStackTrace();
 	}
@@ -55,6 +56,7 @@ public class Browser extends JPanel {
 	window.setSize(800, 600);
 	
 	Browser browser = new Browser();
+	window.add(browser);
 	
 	
 	try {
