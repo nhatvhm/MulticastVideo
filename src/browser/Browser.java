@@ -19,6 +19,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 
 // Some code inspired by http://www.sourcecodester.com/tutorials/java/5732/simple-web-browser-java.html
@@ -53,7 +55,12 @@ public class Browser extends JPanel {
 
 	JFrame window = new JFrame("Browser");
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	window.setSize(800, 600);
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	int width = (int) (screenSize.getWidth() * .75);
+	int height = (int) (screenSize.getHeight() * .75);
+	
+	window.setSize(width, height);
 	
 	Browser browser = new Browser();
 	window.add(browser);
