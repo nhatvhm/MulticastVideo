@@ -24,14 +24,18 @@ import java.awt.BorderLayout;
 // Some code inspired by http://www.sourcecodester.com/tutorials/java/5732/simple-web-browser-java.html
 public class Browser extends JPanel {
     JEditorPane content;
+	JScrollPane scrollPane;
 
     public Browser() {
 	setLayout(new BorderLayout(1, 1));
 	
 	content = new JEditorPane();
+	content.setContentType("text/html");
 	content.setEditable(false);
 	
-	add(new JScrollPane(content), BorderLayout.CENTER);
+	scrollPane = new JScrollPane(content);
+	
+	add(scrollPane, BorderLayout.CENTER);
     }
 
     // Bandaid method for now.
@@ -39,7 +43,7 @@ public class Browser extends JPanel {
 	try {
 	    content.setPage(htmlData);
 	} catch(IOException e) {
-
+		e.printStackTrace();
 	}
     }
 
@@ -47,17 +51,20 @@ public class Browser extends JPanel {
     public static void main(String[] args) {
 
 	JFrame window = new JFrame("Browser");
+	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	window.setSize(800, 600);
+	
 	Browser browser = new Browser();
-	window.setSize(600, 500);
+	
 	
 	try {
-	    String url = "https://jsoup.org/cookbook/input/load-document-from-url";
-	    Document doc = Jsoup.connect(url).get();
-	    System.out.println(doc.toString());
+	    String url = "https://www.youtube.com/watch?v=9bZkp7q19f0";
+	    //Document doc = Jsoup.connect(url).get();
+	    //System.out.println(doc.toString());
 	    browser.updateContent(url);
 
 	} catch(Exception e) {
-	    System.err.println(e);
+	    e.printStackTrace();
 	}
 
 	window.setVisible(true);

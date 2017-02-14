@@ -4,9 +4,12 @@ os="`uname`"
 
 echo Your OS is $os
 
-# If not linux, we assume Windows.
 case $os in
 	Linux*) 
+		find -name "*.java" > sources.txt 
+		find -name "*.jar" > jars.txt		
+		;;
+	MINGW32_NT-6.2*) 
 		find -name "*.java" > sources.txt 
 		find -name "*.jar" > jars.txt		
 		;;
