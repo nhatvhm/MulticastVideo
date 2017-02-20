@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,13 +30,22 @@ import java.awt.Toolkit;
 public class Browser extends JPanel {
 	String url;
 	Document doc;
+	Elements videoElements;
 
     JEditorPane content;
 	JScrollPane scrollPane;
 
     public Browser(String URL) {
 		this.url = URL;
-		doc = Jsoup.connect(url).get();
+		
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		videoElements = doc.select("[src]");
+		
+		printVideoElements();
 		
 		setLayout(new BorderLayout(1, 1));
 		
@@ -56,6 +67,19 @@ public class Browser extends JPanel {
 			e.printStackTrace();
 		}
     }
+	
+	public void printVideoElements() {
+		for(Element src : videoElements) {
+			if (src.tagName().equals("img"))
+                System.out.format(" * %s: <%s> %sx%s (%s)",
+                        src.tagName(), src.attr("abs:src"), src.attr("width"), src.attr("height"),
+						src.attr("alt"));
+            else
+                System.out.format(" * %s: <%s>", src.tagName(), src.attr("abs:src"));
+			
+			System.out.println();
+		}
+	}
 	
 	public ArrayList<String> listVideoFiles() {
 		return new ArrayList<String>();
