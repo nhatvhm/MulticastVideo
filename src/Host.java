@@ -24,7 +24,7 @@ public class Host extends Thread {
 		System.out.println("Host starting up...");
 		
 		try{
-			socket = new DatagramSocket(Constants.Network.SOCKET_PORT_NUMBER);
+			socket = new DatagramSocket(Constants.Network.HOST_PORT);
 		} catch(SocketException e) {
 			// I should almost definitely determine a new port from here.
 			e.printStackTrace();
@@ -46,13 +46,16 @@ public class Host extends Thread {
 			
 			try {
 				InetAddress group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
-				DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.SOCKET_PORT_NUMBER);
+				DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.CLIENT_PORT);
+				socket.send(packet);
 			} catch(UnknownHostException e) {
+				e.printStackTrace();
+			} catch(IOException e) {
 				e.printStackTrace();
 			}
 			
 			try{ 
-				sleep(5000L);
+				sleep(2000L);
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}

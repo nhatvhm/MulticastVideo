@@ -15,7 +15,7 @@ import java.util.*;
 	
 	public Client() {
 		try{
-			socket = new MulticastSocket(Constants.Network.SOCKET_PORT_NUMBER);
+			socket = new MulticastSocket(Constants.Network.CLIENT_PORT);
 			group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
 		} catch(IOException e) {
 			// I should almost definitely determine a new port from here.
@@ -31,6 +31,8 @@ import java.util.*;
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("Client connected!");
 		
 		receiveData();
 	}
