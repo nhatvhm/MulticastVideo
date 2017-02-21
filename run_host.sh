@@ -17,4 +17,4 @@ esac
 
 echo $path
 
-java -Xmx1000g -cp $path Application
+java -Xmx1000g -cp $path HostApplication

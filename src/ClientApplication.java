@@ -4,7 +4,7 @@
  
  public class ClientApplication {
 	public static void main(String[] args) {
-		Host host = new Host("MulticastTest");
-		host.run();
+		Client client = new Client();
+		client.connect();
 	}
  }
