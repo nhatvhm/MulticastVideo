@@ -21,6 +21,8 @@ public class Host extends Thread {
 	public Host(String name) {
 		super(name);
 		
+		System.out.println("Host starting up...");
+		
 		try{
 			socket = new DatagramSocket(Constants.HostData.SOCKET_PORT_NUMBER);
 			group = InetAddress.getByName(Constants.HostData.INET_ADDRESS);

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Runs MultiCast Video program
-src=src/browser
+src=src
 jars=jars/*
 
 os="`uname`"
@@ -17,4 +17,4 @@ esac
 
 echo $path
 
-java -Xmx1000g -cp $path Browser
+java -Xmx1000g -cp $path Application
