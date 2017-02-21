@@ -39,7 +39,7 @@ import java.util.*;
 	
 	public void receiveData() {
 		DatagramPacket packet;
-		byte[] buf = new byte[Constants.DataSizes.MB];
+		byte[] buf = new byte[Constants.DataSizes.MAX_UDP_SIZE];
 	
 		for(int i = 0; i < 9999; i++) {
 			packet = new DatagramPacket(buf, buf.length);

@@ -49,9 +49,9 @@ public class Host extends Thread {
 	
 	public void run() {	
 		byte[] videoFile = selectVideoFile();
-		int bufferSize = Constants.DataSizes.MB;
+		int bufferSize = Constants.DataSizes.MAX_UDP_SIZE;
 		//byte[] buf = new byte[Constants.DataSizes.MB];
-		int numOfPacketsToSend = (int) Math.ceil(((double)videoFile.length) / buf.length);
+		int numOfPacketsToSend = videoFile.length / bufferSize;
 	
 		while(continueStreaming()) {
 			

@@ -14,6 +14,7 @@ public class Constants {
 	}
 	
 	class DataSizes {
+		public static final int MAX_UDP_SIZE = 65507;
 		public static final int KB = 1024;
 		public static final int MB = 1000 * KB;
 	}
