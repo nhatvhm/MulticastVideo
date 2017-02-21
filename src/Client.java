@@ -15,19 +15,22 @@ import java.util.*;
 	
 	public Client() {
 		try{
-			socket = new DatagramSocket(Constants.Network.SOCKET_PORT_NUMBER);
+			socket = new MulticastSocket(Constants.Network.SOCKET_PORT_NUMBER);
 			group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
-		} catch(SocketException e) {
+		} catch(IOException e) {
 			// I should almost definitely determine a new port from here.
-			e.printStackTrace();
-		} catch(UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean connect() {
+	public void connect() {
 		System.out.println("Client connecting...");
-		socket.joinGroup(group);
+		
+		try {
+			socket.joinGroup(group);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 		receiveData();
 	}
@@ -38,7 +41,12 @@ import java.util.*;
 		for(int i = 0; i < 9999; i++) {
 			byte[] buf = new byte[256];
 			packet = new DatagramPacket(buf, buf.length);
-			socket.receive(packet);
+			
+			try {
+				socket.receive(packet);
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 			
 			String received = new String(packet.getData(), 0, packet.getLength());
 			System.out.println(received);
@@ -49,7 +57,13 @@ import java.util.*;
 	
 	public void disconnect() {
 		System.out.println("Disconnecting...");
-		socket.leaveGroup(group);
+		
+		try {
+			socket.leaveGroup(group);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
 		socket.close();
 	}
 	
