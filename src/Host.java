@@ -48,27 +48,33 @@ public class Host extends Thread {
 	}
 	
 	public void run() {	
+		byte[] videoFile = selectVideoFile();
+		int bufferSize = Constants.DataSizes.MB;
+		//byte[] buf = new byte[Constants.DataSizes.MB];
+		int numOfPacketsToSend = (int) Math.ceil(((double)videoFile.length) / buf.length);
+	
 		while(continueStreaming()) {
-			byte[] buf = new byte[Constants.DataSizes.MB];
 			
-			String sampleMessage = new Date().toString();
-			System.out.println("Sending message: " + sampleMessage);
-			buf = sampleMessage.getBytes();
-			
-			try {
-				InetAddress group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
-				DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.CLIENT_PORT);
-				socket.send(packet);
-			} catch(UnknownHostException e) {
-				e.printStackTrace();
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
-			
-			try{ 
-				sleep(2000L);
-			} catch(InterruptedException e) {
-				e.printStackTrace();
+			for(int i = 0; i < numOfPacketsToSend; i++) {
+				int startOffset = numOfPacketsToSend * bufferSize;
+				int end = startOffset + bufferSize;
+				
+				byte[] buf = Arrays.copyOfRange(videoFile, startOffset, end);
+				try {
+					InetAddress group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
+					DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.CLIENT_PORT);
+					socket.send(packet);
+				} catch(UnknownHostException e) {
+					e.printStackTrace();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+				
+				try{ 
+					sleep(2000L);
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
