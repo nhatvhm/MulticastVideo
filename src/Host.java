@@ -32,13 +32,24 @@ public class Host extends Thread {
 		
 	}
 	
+	// In the future, I hopefully won't need to download the video files
+	// I want to send downstream. 
+	// Current version is for testing/other aspects of the program
+	// though.
+	public byte[] selectVideoFile() {
+		File videoFile = new File("res/FFbyMitski.mp4");
+		byte[] bytesArray = new byte[(int) videoFile.length()];
+		
+		return bytesArray;
+	}
+	
 	public boolean continueStreaming() {
 		return true;
 	}
 	
 	public void run() {	
 		while(continueStreaming()) {
-			byte[] buf = new byte[256];
+			byte[] buf = new byte[Constants.DataSizes.MB];
 			
 			String sampleMessage = new Date().toString();
 			System.out.println("Sending message: " + sampleMessage);
