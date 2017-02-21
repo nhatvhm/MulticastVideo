@@ -17,4 +17,4 @@ esac
 
 echo $path
 
-java -Xmx1000g -cp $path ClientApplication
+java -Xmx512M -cp $path -Djava.net.preferIPv4Stack=true ClientApplication

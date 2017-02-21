@@ -12,7 +12,7 @@
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastServerThread.java
 public class Host extends Thread {
 	private DatagramSocket socket;
-	private InetAddress group;
+	//private InetAddress group;
 	
 	public Host() {
 		this("Host");
@@ -25,13 +25,11 @@ public class Host extends Thread {
 		
 		try{
 			socket = new DatagramSocket(Constants.Network.SOCKET_PORT_NUMBER);
-			group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
 		} catch(SocketException e) {
 			// I should almost definitely determine a new port from here.
 			e.printStackTrace();
-		} catch(UnknownHostException e) {
-			e.printStackTrace();
 		}
+		
 	}
 	
 	public boolean continueStreaming() {
@@ -43,9 +41,15 @@ public class Host extends Thread {
 			byte[] buf = new byte[256];
 			
 			String sampleMessage = new Date().toString();
+			System.out.println("Sending message: " + sampleMessage);
 			buf = sampleMessage.getBytes();
 			
-			DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.SOCKET_PORT_NUMBER);
+			try {
+				InetAddress group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
+				DatagramPacket packet = new DatagramPacket(buf, buf.length, group, Constants.Network.SOCKET_PORT_NUMBER);
+			} catch(UnknownHostException e) {
+				e.printStackTrace();
+			}
 			
 			try{ 
 				sleep(5000L);

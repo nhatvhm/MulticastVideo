@@ -37,9 +37,9 @@ import java.util.*;
 	
 	public void receiveData() {
 		DatagramPacket packet;
+		byte[] buf = new byte[256];
 	
 		for(int i = 0; i < 9999; i++) {
-			byte[] buf = new byte[256];
 			packet = new DatagramPacket(buf, buf.length);
 			
 			try {
