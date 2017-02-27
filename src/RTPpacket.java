@@ -170,6 +170,9 @@ public class RTPpacket {
 		header[11] = fourth;
 	}
 	
+	// Java has some nonsensical byte-to-int conversions.
+	// This is the muchhhh more intuitive one, with no sign-conserving
+	// byte-to-int expansions.
 	public static int convertByteToInt(byte x, int shift) {
 		int eraseNonByte = 0xFF;
 		return (eraseNonByte & x) << shift;
