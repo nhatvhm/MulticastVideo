@@ -7,11 +7,11 @@ echo Your OS is $os
 case $os in
 	Linux*) 
 		find -name "*.java" > sources.txt 
-		find -name "*.jar" > jars.txt		
+		find -name "*.jar" | tr "\n" ":" > jars.txt		
 		;;
 	MINGW32_NT-6.2*) 
 		find -name "*.java" > sources.txt 
-		find -name "*.jar" > jars.txt		
+		find -name "*.jar" | tr "\n" ";" > jars.txt		
 		;;
 	*) 
 		dir /s /B *.java > sources.txt 

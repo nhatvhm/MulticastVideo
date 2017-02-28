@@ -6,6 +6,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javafx.application.*;
  
  // Initial version inspired by:
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastClient.java
