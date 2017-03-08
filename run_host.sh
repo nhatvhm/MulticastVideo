@@ -9,12 +9,13 @@ os="`uname`"
 echo Your OS is $os
 
 # If not linux, we assume Windows.
-case $os in
-	Linux*) path=$src:$jars ;;
-	MINGW32_NT-6.2*) path="$src;$jars" ;;
-	*) path="$src;$jars" ;;
-esac
+#case $os in
+#	Linux*) path=$src:$jars ;;
+#	MINGW32_NT-6.2*) path="$src;$jars" ;;
+#	*) path="$src;$jars" ;;
+#esac
 
-echo $path
+#echo $path
 
-java -Xmx1000g -cp $path HostApplication
+#java -Xmx1000g -cp $path HostApplication
+mvn exec:java -Dexec.mainClass="HostApplication"
