@@ -61,10 +61,13 @@ public class Host extends Thread {
 
 			FFmpegBuilder builder = new FFmpegBuilder()
 				.setInput("res/FFbyMitski.mp4")
+					.addExtraArgs("-re")
+
 				.addOutput("rtp://" + Constants.Network.INET_ADDRESS + ":" + Constants.Network.CLIENT_PORT)
-					.setFormat("flv")
-					.addExtraArgs("-bufsize", "4000k")
-					.addExtraArgs("-maxrate", "1000k")
+					.addExtraArgs("-vn")
+					.addExtraArgs("-acodec", "copy")
+					.addExtraArgs("-f", "rtp")
+					.addExtraArgs
 					.done();
 
 			executor = new FFmpegExecutor(ffmpeg);
