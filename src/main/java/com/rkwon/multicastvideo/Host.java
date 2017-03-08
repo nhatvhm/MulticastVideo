@@ -62,7 +62,7 @@ public class Host extends Thread {
 			FFmpegBuilder builder = new FFmpegBuilder()
 				.setInput("res/FFbyMitski.mp4")
 				.addOutput("rtp://" + Constants.Network.INET_ADDRESS + ":" + Constants.Network.CLIENT_PORT)
-					.setFormat("mp4")
+					.setFormat("flv")
 					.addExtraArgs("-bufsize", "4000k")
 					.addExtraArgs("-maxrate", "1000k")
 					.done();
