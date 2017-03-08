@@ -7,11 +7,13 @@
  import java.io.*;
  import java.net.*;
  import java.util.*;
+ import net.bramp.ffmpeg.*;
 
  // Initial version strongly influenced by:
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastServerThread.java
 public class Host extends Thread {
 	private DatagramSocket socket;
+	private FFmpegExecutor executor;
 	//private InetAddress group;
 
 	public Host() {
@@ -47,7 +49,20 @@ public class Host extends Thread {
 		return true;
 	}
 
+	// Grab the local FFMPEG binary.
+	public String setUpFFmpegWrapper() {
+		//FF
+		return "";
+	}
+
 	public void run() {
+		try {
+		FFmpeg ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
+		FFprobe ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
+		}  catch(IOException e) {
+			e.printStackTrace();
+		}
+
 		byte[] videoFile = selectVideoFile();
 		int bufferSize = Constants.DataSizes.MAX_UDP_SIZE;
 		//byte[] buf = new byte[Constants.DataSizes.MB];
