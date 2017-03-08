@@ -6,14 +6,33 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
- 
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
  // Initial version inspired by:
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastClient.java
- public class Client {
+ public class Client extends JFrame {
 	MulticastSocket socket;
 	InetAddress group;
 	
 	public Client() {
+		super("Multicast Video Client");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		int width = (int) (screenSize.getWidth() * .75);
+		int height = (int) (screenSize.getHeight() * .75);
+		
+		setSize(width, height);
+
 		try{
 			socket = new MulticastSocket(Constants.Network.CLIENT_PORT);
 			group = InetAddress.getByName(Constants.Network.INET_ADDRESS);
@@ -21,6 +40,8 @@ import java.util.*;
 			// I should almost definitely determine a new port from here.
 			e.printStackTrace();
 		}
+
+		setVisible(true);
 	}
 
 	public void connect() {
