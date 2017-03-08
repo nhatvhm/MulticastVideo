@@ -8,6 +8,7 @@
  import java.net.*;
  import java.util.*;
  import net.bramp.ffmpeg.*;
+ import net.bramp.ffmpeg.builder.*;
 
  // Initial version strongly influenced by:
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastServerThread.java
@@ -49,20 +50,35 @@ public class Host extends Thread {
 		return true;
 	}
 
-	// Grab the local FFMPEG binary.
-	public String setUpFFmpegWrapper() {
+	// Set up the FFMPEG wrapper to let us stream video.
+	public void setUpFFmpegWrapper() {
+		FFmpeg ffmpeg;
+		FFprobe ffprobe;
+
 		try {
-			FFmpeg ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
-			FFprobe ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
+			ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
+			ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
+
+			FFmpegBuilder builder = new FFmpegBuilder()
+				.setInput("res/FFbyMitski.mp4")
+				.addOutput("rtp://" + Constants.Network.INET_ADDRESS + ":" + Constants.Network.CLIENT_PORT)
+					.setFormat("mp4")
+					.addExtraArgs("-bufsize", "4000k")
+					.addExtraArgs("-maxrate", "1000k")
+					.done();
+
+			executor = new FFmpegExecutor(ffmpeg);
+			executor.createJob(builder).run();
 		}  catch(IOException e) {
 			e.printStackTrace();
 		}
-
-		return "";
 	}
 
 	public void run() {
 
+		setUpFFmpegWrapper();
+
+		/*
 		byte[] videoFile = selectVideoFile();
 		int bufferSize = Constants.DataSizes.MAX_UDP_SIZE;
 		//byte[] buf = new byte[Constants.DataSizes.MB];
@@ -95,6 +111,7 @@ public class Host extends Thread {
 		}
 
 		socket.close();
+		*/
 	}
 
 
