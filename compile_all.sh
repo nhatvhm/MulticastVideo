@@ -4,6 +4,8 @@ os="`uname`"
 
 echo Your OS is $os
 
+: <<'END'
+
 case $os in
 	Linux*)
 		find -name "*.java" > sources.txt
@@ -20,3 +22,6 @@ case $os in
 esac
 
 javac -cp @jars.txt @sources.txt
+END
+
+mvn compile

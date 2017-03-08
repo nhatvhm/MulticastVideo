@@ -51,17 +51,17 @@ public class Host extends Thread {
 
 	// Grab the local FFMPEG binary.
 	public String setUpFFmpegWrapper() {
-		//FF
+		try {
+			FFmpeg ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
+			FFprobe ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
+		}  catch(IOException e) {
+			e.printStackTrace();
+		}
+
 		return "";
 	}
 
 	public void run() {
-		try {
-		FFmpeg ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
-		FFprobe ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
-		}  catch(IOException e) {
-			e.printStackTrace();
-		}
 
 		byte[] videoFile = selectVideoFile();
 		int bufferSize = Constants.DataSizes.MAX_UDP_SIZE;
@@ -71,6 +71,7 @@ public class Host extends Thread {
 		while(continueStreaming()) {
 
 			for(int i = 0; i < numOfPacketsToSend; i++) {
+				System.out.println("Sending packet " + i + " ...");
 				int startOffset = numOfPacketsToSend * bufferSize;
 				int end = startOffset + bufferSize;
 
