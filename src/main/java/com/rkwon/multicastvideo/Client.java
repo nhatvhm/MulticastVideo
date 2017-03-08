@@ -7,6 +7,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import net.bramp.ffmpeg.*;
+import net.bramp.ffmpeg.builder.*;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
@@ -21,6 +24,7 @@ import java.awt.Toolkit;
  public class Client extends JFrame {
 	MulticastSocket socket;
 	InetAddress group;
+	FFmpegExecutor executor;
 	
 	public Client() {
 		super("Multicast Video Client");
@@ -55,7 +59,31 @@ import java.awt.Toolkit;
 		
 		System.out.println("Client connected!");
 		
+		//runFFPlay();
 		receiveData();
+	}
+
+
+	// TODO: FIX OR REMOVE.
+	// Doesn't work.
+	public void runFFPlay() {
+		FFmpeg ffmpeg;
+		FFprobe ffprobe;
+
+		try {
+			ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
+			ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
+
+			FFmpegBuilder builder = new FFmpegBuilder()
+				.setInput("rtp://" + Constants.Network.INET_ADDRESS + ":" + Constants.Network.CLIENT_PORT)
+				.addOutput("ffplay")
+					.done();
+
+			executor = new FFmpegExecutor(ffmpeg);
+			executor.createJob(builder).run();
+		}  catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void receiveData() {
