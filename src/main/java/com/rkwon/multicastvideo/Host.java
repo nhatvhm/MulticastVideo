@@ -59,6 +59,7 @@ public class Host extends Thread {
 			ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
 			ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
 
+			/*
 			FFmpegBuilder builder = new FFmpegBuilder()
 				.setInput("res/FFbyMitski.mp4")
 					.addExtraArgs("-re")
@@ -72,6 +73,7 @@ public class Host extends Thread {
 
 			executor = new FFmpegExecutor(ffmpeg);
 			executor.createJob(builder).run();
+			*/
 		}  catch(IOException e) {
 			e.printStackTrace();
 		}
