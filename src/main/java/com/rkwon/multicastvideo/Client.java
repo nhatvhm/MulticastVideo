@@ -7,8 +7,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import net.bramp.ffmpeg.*;
-import net.bramp.ffmpeg.builder.*;
+//import net.bramp.ffmpeg.*;
+//import net.bramp.ffmpeg.builder.*;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,7 +24,7 @@ import java.awt.Toolkit;
  public class Client extends JFrame {
 	MulticastSocket socket;
 	InetAddress group;
-	FFmpegExecutor executor;
+	//FFmpegExecutor executor;
 	
 	public Client() {
 		super("Multicast Video Client");
@@ -66,6 +66,7 @@ import java.awt.Toolkit;
 
 	// TODO: FIX OR REMOVE.
 	// Doesn't work.
+	/*
 	public void runFFPlay() {
 		FFmpeg ffmpeg;
 		FFprobe ffprobe;
@@ -85,6 +86,7 @@ import java.awt.Toolkit;
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	public void receiveData() {
 		DatagramPacket packet;

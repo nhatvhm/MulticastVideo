@@ -7,14 +7,14 @@
  import java.io.*;
  import java.net.*;
  import java.util.*;
- import net.bramp.ffmpeg.*;
- import net.bramp.ffmpeg.builder.*;
+ //import net.bramp.ffmpeg.*;
+ //import net.bramp.ffmpeg.builder.*;
 
  // Initial version strongly influenced by:
  // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/networking/datagrams/examples/MulticastServerThread.java
 public class Host extends Thread {
 	private DatagramSocket socket;
-	private FFmpegExecutor executor;
+	//private FFmpegExecutor executor;
 	//private InetAddress group;
 
 	public Host() {
@@ -50,6 +50,7 @@ public class Host extends Thread {
 		return true;
 	}
 
+	/*
 	// Set up the FFMPEG wrapper to let us stream video.
 	public void setUpFFmpegWrapper() {
 		FFmpeg ffmpeg;
@@ -59,7 +60,6 @@ public class Host extends Thread {
 			ffmpeg = new FFmpeg("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffmpeg.exe");
 			ffprobe = new FFprobe("ffmpeg/ffmpeg-20170305-035e932-win64-static/bin/ffprobe.exe");
 
-			/*
 			FFmpegBuilder builder = new FFmpegBuilder()
 				.setInput("res/FFbyMitski.mp4")
 					.addExtraArgs("-re")
@@ -73,15 +73,16 @@ public class Host extends Thread {
 
 			executor = new FFmpegExecutor(ffmpeg);
 			executor.createJob(builder).run();
-			*/
+
 		}  catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
+	*/
 
 	public void run() {
 
-		setUpFFmpegWrapper();
+		//setUpFFmpegWrapper();
 
 		/*
 		byte[] videoFile = selectVideoFile();
