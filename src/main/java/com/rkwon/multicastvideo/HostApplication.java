@@ -27,7 +27,7 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(args);
 		HeadlessMediaPlayer mediaPlayer = mediaPlayerFactory.newHeadlessMediaPlayer();
 
-		mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
+		//mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
 
 		try {
 			Thread.currentThread().join(); // Don't exit.
