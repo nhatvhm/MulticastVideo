@@ -18,4 +18,5 @@ echo Your OS is $os
 #echo $path
 
 #java -Xmx1000g -cp $path HostApplication
-mvn exec:java -Dexec.mainClass="HostApplication"
+#mvn exec:java -Dexec.mainClass="HostApplication"
+mvn exec:java -Dexec.mainClass="Test"

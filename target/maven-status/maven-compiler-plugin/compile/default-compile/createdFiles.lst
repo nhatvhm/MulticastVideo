@@ -2,6 +2,7 @@ Host.class
 Utils.class
 Client.class
 ClientApplication.class
+Test.class
 Browser.class
 Constants$Network.class
 Constants.class
