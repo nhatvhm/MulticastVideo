@@ -10,12 +10,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
 public class Test {
 
@@ -26,6 +29,10 @@ public class Test {
 	private final JButton pauseButton;
 	private final JButton rewindButton;
 	private final JButton skipButton;
+
+	private void closeWindow() {
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+	}
 
 	public static void main(String[] args) {
 
@@ -52,7 +59,41 @@ public class Test {
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 		
-		mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+		mediaPlayerComponent = new EmbeddedMediaPlayerComponent() {
+			@Override
+			public void playing(MediaPlayer mp) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						frame.setTitle(
+							String.format("Playing: %s",
+							mediaPlayerComponent.getMediaPlayer().getMediaMeta().getTitle()));
+					}
+				});
+			}
+
+			@Override 
+			public void finished(MediaPlayer mp) {
+
+			}
+
+			@Override 
+			public void error(MediaPlayer mp) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						JOptionPane.showMessageDialog(
+							frame,
+							"Failed to play media",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+							);
+						closeWindow();
+					}
+				});
+			}
+		};
+
 		contentPane.add(mediaPlayerComponent, BorderLayout.CENTER);
 
 		JPanel controlsPane = new JPanel();
