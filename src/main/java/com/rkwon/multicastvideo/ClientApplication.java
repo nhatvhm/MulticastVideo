@@ -36,7 +36,7 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 		NativeDiscovery nativeDiscovery = new NativeDiscovery();
 		nativeDiscovery.discover();
 
-		String mediatorIP = Constants.Network.INET_ADDRESS;
+		String mediatorIP = "192.168.1.104";
 		short mediatorPort = 5554;
 
 		String publicIP, publicServer, localIP, localServer, clientIP;
@@ -61,8 +61,8 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 		publicPort = 5555;
 		publicServer = Utils.formatRtpStream(publicIP, publicPort);
 		System.out.println("Capturing from '" + publicServer + "'");
-		frame.setTitle("Capturing from Public Server 'rtp://" + publicIP + ":" + publicPort + "'");
-		mediaPlayer.playMedia(publicServer);
+		frame.setTitle(publicServer);//("Capturing from Public Server 'rtp://" + publicIP + ":" + publicPort + "'");
+		mediaPlayer.playMedia("rtp://230.0.0.1:5555");
 
 		/*
 		Client client = new Client();

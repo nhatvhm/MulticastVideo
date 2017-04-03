@@ -17,6 +17,8 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 		String media = "src/main/resources/FFbyMitski.mp4";
 
+		String[] fakeArgs = {media};
+
 		String publicIP = Constants.Network.INET_ADDRESS;
 		short publicPort = 5555;
 
@@ -24,10 +26,10 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 		System.out.println("Streaming '" + media + "' to '" + options + "'");
 
-		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(args);
+		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(fakeArgs);
 		HeadlessMediaPlayer mediaPlayer = mediaPlayerFactory.newHeadlessMediaPlayer();
 
-		//mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
+		mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
 
 		try {
 			Thread.currentThread().join(); // Don't exit.
