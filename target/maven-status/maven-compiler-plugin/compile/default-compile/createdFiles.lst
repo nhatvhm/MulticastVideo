@@ -1,11 +1,11 @@
 Host.class
 Utils.class
 Client.class
-ClientApplication.class
 Test.class
-Browser.class
 Constants$Network.class
-Constants.class
 HostApplication.class
-Constants$DataSizes.class
 RTPpacket.class
+ClientApplication.class
+Browser.class
+Constants.class
+Constants$DataSizes.class
