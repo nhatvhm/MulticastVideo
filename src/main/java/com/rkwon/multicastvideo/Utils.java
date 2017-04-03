@@ -5,12 +5,16 @@
 public class Utils {
 
 
-	// DIDN'T NEED. EXACT COPY OF copyOfRange
-	// Returns a subset of superSet starting from offset and up to size or
-	// the end of superSet. Size is always maintained, and may 
-	// result in a byte[] array with 0 values on the tail-end.
-	//public byte[] arraySubset(byte[] superSet, int size, int offset) {
-		//byte[] subset = new byte[size];
-		
-	//}
+	public static String formatRtpStream(String serverAddress, short serverPort) {
+		StringBuilder sb = new StringBuilder(200);
+
+		sb.append("::sout=#transcode{vcodec=mp4v, vb=3000, fps=30, scale=1, acodec=mp4a, ab=128, channels=2, samplerate=48000, width=800, height=600}:rtp{dst=");
+
+		sb.append(serverAddress);
+		sb.append(",port=");
+		sb.append(serverPort);
+		sb.append(",mux=ts");
+
+		return sb.toString();
+	}
 }

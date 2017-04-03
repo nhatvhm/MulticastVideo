@@ -17,10 +17,10 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 		String media = "src/main/resources/FFbyMitski.mp4";
 
-		String publicIP = "230.0.0.1";
+		String publicIP = Constants.Network.INET_ADDRESS;
 		short publicPort = 5555;
 
-		String options = formatRtpStream(publicIP, publicPort);
+		String options = Utils.formatRtpStream(publicIP, publicPort);
 
 		System.out.println("Streaming '" + media + "' to '" + options + "'");
 
@@ -39,16 +39,5 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 		//host.run();
 	}
 
-	private static String formatRtpStream(String serverAddress, short serverPort) {
-		StringBuilder sb = new StringBuilder(200);
-
-		sb.append("::sout=#transcode{vcodec=mp4v, vb=3000, fps=30, scale=1, acodec=mp4a, ab=128, channels=2, samplerate=48000, width=800, height=600}:rtp{dst=");
-
-		sb.append(serverAddress);
-		sb.append(",port=");
-		sb.append(serverPort);
-		sb.append(",mux=ts");
-
-		return sb.toString();
-	}
+	
  }
