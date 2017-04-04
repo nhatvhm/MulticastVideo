@@ -20,18 +20,6 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-
-      <exclusions>
-          <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-nop</artifactId>
-          </exclusion>
-
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-          </exclusion>
-        </exclusions> 
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
@@ -60,8 +48,8 @@
         </exclusions>
 
     </dependency>
-
-    <!-- FFMPEG wrapper -->
+    
+    <!-- FFMPEG wrapper 
     <dependency>
       <groupId>net.bramp.ffmpeg</groupId>
       <artifactId>ffmpeg</artifactId>
@@ -79,21 +67,36 @@
         </exclusion>
       </exclusions> 
     </dependency>
+    -->
 
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.6</version>
-    </dependency>
-
-    <!-- VLCJ video player
+    <!-- VLCJ video player -->
     <dependency>
         <groupId>uk.co.caprica</groupId>
         <artifactId>vlcj</artifactId>
-        <version>3.10.1</version>
+        <version>3.8.0</version>
     </dependency>
-    -->
+
+    <!-- Logging stuff for VLCJ -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>1.1.2</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/com.sun.jna/jna -->
+    <!-- Dynamically build up libraries/packages -->
+    <dependency>
+        <groupId>com.sun.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>3.0.9</version>
+    </dependency>
 
 
 

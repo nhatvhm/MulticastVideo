@@ -24,4 +24,11 @@ esac
 javac -cp @jars.txt @sources.txt
 END
 
+echo BEGINNING CLEANING
+echo ___________________________
+mvn clean
+echo
+echo
+echo BEGINNING COMPILING
+echo ___________________________
 mvn compile
