@@ -11,6 +11,8 @@ public class Constants {
 		public static final int HOST_PORT = 4445;
 		public static final int CLIENT_PORT = 4446;
 		public static final String INET_ADDRESS = "230.0.0.1";
+
+		public static final int HOST_SYNC_PORT = 7532;
 	}
 	
 	class DataSizes {
