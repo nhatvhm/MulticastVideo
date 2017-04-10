@@ -11,6 +11,7 @@ Constants$Network.class
 HostApplication.class
 RTPpacket.class
 Test$5.class
+NetworkLog.class
 HostSync.class
 Test$3.class
 ClientApplication.class

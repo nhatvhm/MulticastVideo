@@ -9,6 +9,7 @@ public class HostSync extends Thread {
 
 	public int portNumber;
 	public ServerSocket serverSocket;
+	public HashMap<Integer, NetworkLog> networkLog;
 
 
 	public HostSync() {
@@ -25,5 +26,13 @@ public class HostSync extends Thread {
 			e.printStackTrace();
 		}
 	}
+
+	// Run:
+	// Want to continue accepting connections. 
+	// For every accepted connection, grab relevant network data.
+	// Store relevant network data if appropriate option is selected
+
+	// Log:
+	// Permanently save stored network data.
 
 }
