@@ -2,14 +2,14 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-// A class to track and measure latency among clients.
+// A class to track and measure latency among clients in a session.
 // Will also be used to send relevant data to clients.
 
 public class HostSync extends Thread {
 
 	public int portNumber;
 	public ServerSocket serverSocket;
-	public HashMap<Integer, NetworkLog> networkLog;
+	public NetworkLog networkLog;
 
 
 	public HostSync() {
