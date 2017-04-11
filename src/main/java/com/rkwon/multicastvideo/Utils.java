@@ -16,4 +16,24 @@ public class Utils {
 	    sb.append(",mux=ts,sap}");
 	    return sb.toString();
     }
+
+    // Taken from:
+    // http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java/29132118#29132118
+    public static byte[] longToBytes(long l) {
+    	byte[] result = new byte[8];
+	    for (int i = 7; i >= 0; i--) {
+	        result[i] = (byte)(l & 0xFF);
+	        l >>= 8;
+	    }
+	    return result;
+    }
+
+    public static long bytesToLong(byte[] b) {
+	    long result = 0;
+	    for (int i = 0; i < 8; i++) {
+	        result <<= 8;
+	        result |= (b[i] & 0xFF);
+	    }
+	    return result;
+	}
 }

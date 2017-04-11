@@ -47,10 +47,14 @@ public class HostSync implements Runnable {
 
 				InetAddress addr = clientSocket.getInetAddress();
 				int port = clientSocket.getPort();
+
+				String identifier = addr.toString() + ":" + port;
+				clients.put(identifier, new ClientConnection(addr, port));
+				
 			} catch(SocketTimeoutException e) {
 				// We timed out without receiving a client.
 			} catch(IOException e) {
-
+				e.printStackTrace();
 			} 
 
 		}
@@ -59,6 +63,34 @@ public class HostSync implements Runnable {
 
 	// Talk to all connected clients and attempt to estimate RTT (Round-Trip-Time) of a message.
 	public void ping() {
+		
+		try {
+			DatagramSocket pingSocket = new DatagramSocket(4445);
+
+			for(ClientConnection cc : clients.values()) {
+
+				InetAddress address = cc.addr;
+				int port = cc.port; // Wrong port for ping?
+
+				long currentTime = System.currentTimeMillis();
+				byte[] buf = Utils.longToBytes(currentTime);
+				
+				try {
+					DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+					pingSocket.send(packet);
+
+					DatagramPacket receipt = new DatagramPacket(buf, buf.length);
+					pingSocket.receive(receipt);
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+
+				cc.addLatencyNumber((System.currentTimeMillis() - currentTime) / 2);
+			}
+
+		} catch(SocketException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -114,11 +146,16 @@ public class HostSync implements Runnable {
 class ClientConnection {
 	public InetAddress addr;
 	public int port;
-	public long latency;
+	public ArrayList<Long> latencyEstimates;
 
 
 	public ClientConnection(InetAddress addr, int port) {
 		this.addr = addr;
 		this.port = port;
+		latencyEstimates = new ArrayList<Long>();
+	}
+
+	public void addLatencyNumber(long latencyVal) {
+		latencyEstimates.add(latencyVal);
 	}
 }
