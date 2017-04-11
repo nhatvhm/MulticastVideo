@@ -8,43 +8,41 @@ import java.io.*;
 
 public class NetworkLog {
 
-	public static final int ERROR_ID = 500;
+	// Types
+	public static final String ERROR = "ERROR";
+	public static final String LATENCY_MEASUREMENT = "LATENCY";
+	public static final String VIDEO_POSITION = "VIDEO_POSITION";
+	public static final String CLIENT_JOIN = "CLIENT_JOIN";
 
 	// Data points about date/time of this session.
 	public LocalDateTime sessionStart = LocalDateTime.now();
-	public HashMap<Integer, ArrayList<NetworkDatum>> data;
+	public ArrayList<NetworkDatum> data;
 
 	public NetworkLog() {
-		data = new HashMap<Integer, ArrayList<NetworkDatum>>();
+		data = new ArrayList<NetworkDatum>();
 	}
 
 	// Register an error.
 	public void registerError() {
-		addToLog(ERROR_ID, new NetworkDatum(false, ERROR_ID));
+		addToLog(new NetworkDatum(ERROR, ERROR));
 	}
 
 	// A helper method to add a datapoint to our log.
-	private void addToLog(int id, NetworkDatum dataPoint) {
-		if(data.containsKey(id)) {
-			data.get(id).add(dataPoint);
-		} else {
-			ArrayList<NetworkDatum> datum = new ArrayList<NetworkDatum>();
-			datum.add(dataPoint);
-			data.put(id, datum);
-		}
+	private void addToLog(NetworkDatum dataPoint) {
+		data.add(dataPoint);
 	}
 
 
 	// A wrapper class around a single point of interesting/relevant network data.
 	class NetworkDatum {
 
-		public boolean valid;
+		public String type;
 		public LocalDateTime messageReceived = LocalDateTime.now();
-		public int identifier;
+		public String sourceIdentifier;
 
-		public NetworkDatum(boolean isValid, int id) {
-			valid = isValid;
-			identifier = id;
+		public NetworkDatum(String eventType, String id) {
+			type = eventType;
+			sourceIdentifier = id;
 		}
 
 	}
