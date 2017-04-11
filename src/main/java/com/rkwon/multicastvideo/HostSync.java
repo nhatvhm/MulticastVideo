@@ -94,19 +94,9 @@ public class HostSync implements Runnable {
 
 	}
 
-	// Run:
-	// Want to continue accepting connections. 
-	// For every accepted connection, grab relevant network data.
-	// Store relevant network data if appropriate option is selected
-
-	@Override
-	public void run() {
-
-		receiveClients();
-
-		// Continue accepting connections
-		// For every accepted connection grab relevant network data.
-		
+	// Continue accepting connections
+	// For every accepted connection grab relevant network data.
+	public void beginLogging() {
 		try {
 			serverSocket.setSoTimeout(0);
 		} catch(SocketException e) {
@@ -131,6 +121,19 @@ public class HostSync implements Runnable {
 			}
 
 		}
+	}
+
+	// Run:
+	// Want to continue accepting connections. 
+	// For every accepted connection, grab relevant network data.
+	// Store relevant network data if appropriate option is selected
+
+	@Override
+	public void run() {
+
+		receiveClients();
+
+		beginLogging();
 	}
 
 	public void stop() {
