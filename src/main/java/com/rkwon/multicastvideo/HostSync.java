@@ -10,6 +10,8 @@ public class HostSync implements Runnable {
 	public boolean keepRunning = true;
 	public boolean keepReceivingClients = true;
 
+	public InetAddress hostAddress;
+	public String hostName;
 	public int portNumber;
 	public ServerSocket serverSocket;
 	public NetworkLog networkLog;
@@ -20,6 +22,14 @@ public class HostSync implements Runnable {
 	// Probably want a hashmap from IP Addresses to relevant client data?
 
 	public HostSync() {
+
+		try {
+			hostAddress = InetAddress.getLocalHost();
+			hostName = hostAddress.getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
 		portNumber = Constants.Network.HOST_SYNC_PORT;
 		networkLog = new NetworkLog();
 		clients = new HashMap<String, ClientConnection>();

@@ -14,8 +14,14 @@ public class ClientSync implements Runnable {
 
 	public EmbeddedMediaPlayer player;
 
-	public ClientSync(EmbeddedMediaPlayer mediaPlayer) {
+	public ClientSync(EmbeddedMediaPlayer mediaPlayer, String hostName, int hostPort) {
 		player = mediaPlayer;
+		this.hostName = hostName;
+		this.hostPort = hostPort;
+	}
+
+	public void connectToHost() {
+
 	}
 
 	public void sendLogMessage() {
@@ -23,10 +29,12 @@ public class ClientSync implements Runnable {
 			Socket socket = new Socket(hostName, hostPort);
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-			float pos = mediaPlayer.getPosition();
+			float pos = player.getPosition();
 
 			out.println(pos);
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
