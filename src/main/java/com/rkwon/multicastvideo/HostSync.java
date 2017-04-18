@@ -75,6 +75,10 @@ public class HostSync implements Runnable {
 				String clientData;
 				Socket clientSocket = serverSocket.accept();
 
+				// We should receive a UDP Port Number from the client.
+				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				int clientUDPPort = Integer.parseInt(in.readLine());
+
 				InetAddress addr = clientSocket.getInetAddress();
 				int port = clientSocket.getPort();
 
@@ -82,7 +86,7 @@ public class HostSync implements Runnable {
 
 				System.out.println("Host received a client with identifier: " + identifier);
 
-				clients.put(identifier, new ClientConnection(addr, port));
+				clients.put(identifier, new ClientConnection(addr, port, clientUDPPort));
 				
 			} catch(SocketTimeoutException e) {
 				System.out.println("Host timed out without receiving a client. Trying again.");
@@ -194,11 +198,13 @@ class ClientConnection {
 	public InetAddress addr;
 	public int port;
 	public ArrayList<Long> latencyEstimates;
+	public int udpPort;
 
 
-	public ClientConnection(InetAddress addr, int port) {
+	public ClientConnection(InetAddress addr, int port, int udpPort) {
 		this.addr = addr;
 		this.port = port;
+		this.udpPort = udpPort;
 		latencyEstimates = new ArrayList<Long>();
 	}
 

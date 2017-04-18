@@ -32,6 +32,15 @@ public class ClientSync implements Runnable {
 		if(proposedUDPPort == Constants.Network.MAX_PORT_NUMBER) {
 			throw new RuntimeException("No port available for client to set up a listening UDP channel!");
 		}
+
+		clientUDPPort = proposedUDPPort;
+
+		try {
+			clientUDPSocket = new DatagramSocket(proposedUDPPort);
+		} catch(SocketException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void connectToHost() {
@@ -41,6 +50,7 @@ public class ClientSync implements Runnable {
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 			// Print out UDP Port.
+			out.println(clientUDPPort);
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
