@@ -42,8 +42,25 @@ public class HostSync implements Runnable {
 		}
 	}
 
+	/////////////////////////////////////////////////////
+	//
+	// EXPOSED API
+	//
+
+	public void stopAcceptingClients() {
+		keepReceivingClients = false;
+	}
+
+
+	/////////////////////////////////////////////////////
+	//
+	// INTERNAL METHODS
+	//	
+
 	public void receiveClients() {
 		
+		System.out.println("Host is now receiving clients...");
+
 		try {
 			serverSocket.setSoTimeout(2000);
 		} catch (SocketException e) {
@@ -51,6 +68,8 @@ public class HostSync implements Runnable {
 		}
 
 		while(keepReceivingClients) {
+			System.out.println("Host is waiting for client connection...");
+
 			try {
 
 				String clientData;
@@ -60,9 +79,13 @@ public class HostSync implements Runnable {
 				int port = clientSocket.getPort();
 
 				String identifier = addr.toString() + ":" + port;
+
+				System.out.println("Host received a client with identifier: " + identifier);
+
 				clients.put(identifier, new ClientConnection(addr, port));
 				
 			} catch(SocketTimeoutException e) {
+				System.out.println("Host timed out without receiving a client. Trying again.");
 				// We timed out without receiving a client.
 			} catch(IOException e) {
 				e.printStackTrace();
@@ -70,10 +93,14 @@ public class HostSync implements Runnable {
 
 		}
 
+		System.out.println("Host is no longer receiving clients.");
+
 	}
 
 	// Talk to all connected clients and attempt to estimate RTT (Round-Trip-Time) of a message.
 	public void ping() {
+
+		System.out.println("Host is sending a ping...");
 		
 		try {
 			DatagramSocket pingSocket = new DatagramSocket(4445);
@@ -96,12 +123,18 @@ public class HostSync implements Runnable {
 					e.printStackTrace();
 				}
 
+				long timeDifference = (System.currentTimeMillis() - currentTime) / 2;
+
+				System.out.println("Host reported a time difference of " + timeDifference + " milliseconds from " + cc.addr);
+
 				cc.addLatencyNumber((System.currentTimeMillis() - currentTime) / 2);
 			}
 
 		} catch(SocketException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("Host done sending pings.");
 
 	}
 
