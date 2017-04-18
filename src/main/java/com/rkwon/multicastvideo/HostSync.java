@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.jsoup.*;
+
 // A class to track and measure latency among clients in a session.
 // Will also be used to send relevant data to clients.
 
@@ -10,8 +12,7 @@ public class HostSync implements Runnable {
 	public boolean keepRunning = true;
 	public boolean keepReceivingClients = true;
 
-	public InetAddress hostAddress;
-	public String hostName;
+	public String hostAddress;
 	public int portNumber;
 	public ServerSocket serverSocket;
 	public NetworkLog networkLog;
@@ -24,10 +25,10 @@ public class HostSync implements Runnable {
 	public HostSync() {
 
 		try {
-			hostAddress = InetAddress.getLocalHost();
-			hostName = hostAddress.getHostName();
-		} catch (UnknownHostException e) {
+			hostAddress = Utils.getIP();
+		} catch (Exception e) {
 			e.printStackTrace();
+			hostAddress = "ERROR"; // Good idea? Not sure. Probably not. Look into.
 		}
 
 		portNumber = Constants.Network.HOST_SYNC_PORT;

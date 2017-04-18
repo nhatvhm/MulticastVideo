@@ -29,6 +29,7 @@ public class ClientSync implements Runnable {
 			Socket socket = new Socket(hostName, hostPort);
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
+			// TODO: Send more useful information!
 			float pos = player.getPosition();
 
 			out.println(pos);
