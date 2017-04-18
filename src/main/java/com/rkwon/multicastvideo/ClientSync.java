@@ -21,7 +21,7 @@ public class ClientSync implements Runnable {
 	}
 
 	public void connectToHost() {
-
+		
 	}
 
 	public void sendLogMessage() {
