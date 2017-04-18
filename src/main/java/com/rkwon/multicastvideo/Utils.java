@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.Socket;
 
 /*
  * A utility class containing useful methods overall.
@@ -58,6 +59,32 @@ public class Utils {
                     in.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // Taken from:
+    // http://stackoverflow.com/questions/434718/sockets-discover-port-availability-using-java
+    public static boolean portAvailable(int port) {
+        //System.out.println("--------------Testing port " + port);
+        Socket s = null;
+        try {
+            s = new Socket("localhost", port);
+
+            // If the code makes it this far without an exception it means
+            // something is using the port and has responded.
+            //System.out.println("--------------Port " + port + " is not available");
+            return false;
+        } catch (IOException e) {
+            //System.out.println("--------------Port " + port + " is available");
+            return true;
+        } finally {
+            if( s != null){
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("You should handle this error." , e);
                 }
             }
         }

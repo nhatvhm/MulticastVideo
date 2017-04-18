@@ -13,6 +13,13 @@ public class Constants {
 		public static final String INET_ADDRESS = "230.0.0.1";
 
 		public static final int HOST_SYNC_PORT = 7532;
+
+		// Locally: tries this UDP port for receiving server pings.
+		// If the port is occupied/throws an exception, we increment and try again.
+		// We send this port to the server so it knows exactly what the client UDP port is.
+		public static final int STARTING_UDP_CLIENT_PORT = 7540;
+
+		public static final int MAX_PORT_NUMBER = 65535;
 	}
 	
 	class DataSizes {
