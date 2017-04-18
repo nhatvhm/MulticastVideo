@@ -1,4 +1,5 @@
-import java.time.LocalDateTime;
+import java.util.Date;
+
 import java.util.ArrayList;
 import java.util.*;
 import java.io.*;
@@ -15,7 +16,8 @@ public class NetworkLog {
 	public static final String CLIENT_JOIN = "CLIENT_JOIN";
 
 	// Data points about date/time of this session.
-	public LocalDateTime sessionStart = LocalDateTime.now();
+	//public LocalDateTime sessionStart = LocalDateTime.now();
+	public Date sessionStart = new Date();
 	public ArrayList<NetworkDatum> data;
 
 	public NetworkLog() {
@@ -37,7 +39,7 @@ public class NetworkLog {
 	class NetworkDatum {
 
 		public String type;
-		public LocalDateTime messageReceived = LocalDateTime.now();
+		public Date messageReceived = new Date();
 		public String sourceIdentifier;
 
 		public NetworkDatum(String eventType, String id) {

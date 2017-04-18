@@ -21,7 +21,14 @@ public class ClientSync implements Runnable {
 	}
 
 	public void connectToHost() {
-		
+		try {
+			Socket socket = new Socket(hostName, hostPort);
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void sendLogMessage() {
