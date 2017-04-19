@@ -3,6 +3,7 @@ Utils.class
 ClientSync.class
 Test$2$2.class
 HostSyncTest.class
+Constants$Latency.class
 Test.class
 HostApplication.class
 RTPpacket.class

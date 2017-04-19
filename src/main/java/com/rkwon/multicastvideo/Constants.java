@@ -31,4 +31,12 @@ public class Constants {
 		public static final int KB = 1024;
 		public static final int MB = 1000 * KB;
 	}
+
+	class Latency {
+
+		// We'll be setting playback starts based on latency.
+		// We'll add an additional ADDED_BUFFER_TIME to every
+		// video player in order to reduce video freezing.
+		public static final long ADDED_BUFFER_TIME = 3000;
+	}
 }

@@ -135,12 +135,12 @@ public class HostSync implements Runnable {
 						pingSocket.send(packet);
 
 
-						pingSocket.setSoTimeout((int) cc.averageLatencyInMillis());
+						pingSocket.setSoTimeout((int) (cc.averageLatencyInMillis() + Constants.Latency.ADDED_BUFFER_TIME));
 						DatagramPacket receipt = new DatagramPacket(buf, buf.length);
 						pingSocket.receive(receipt);
 						successfulReceipt = true;
 					} catch (SocketTimeoutException e) {
-						System.out.println("Did not receive a response in " + cc.averageLatencyInMillis() + " ms, trying again...");
+						System.out.println("Did not receive a response in " + (cc.averageLatencyInMillis() + Constants.Latency.ADDED_BUFFER_TIME) + " ms, trying again...");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
