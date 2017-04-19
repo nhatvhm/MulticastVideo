@@ -116,7 +116,7 @@ public class HostSync implements Runnable {
 			for(ClientConnection cc : clients.values()) {
 
 				InetAddress address = cc.addr;
-				int port = cc.port; // Wrong port for ping?
+				int port = cc.udpPort; // Wrong port for ping?
 
 				long currentTime = System.currentTimeMillis();
 
@@ -143,11 +143,14 @@ public class HostSync implements Runnable {
 				cc.addLatencyNumber((System.currentTimeMillis() - currentTime) / 2);
 			}
 
+			pingSocket.close();
+
 		} catch(SocketException e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("Host done sending pings.");
+		if(lastPing)
+			System.out.println("Host done sending pings.");
 
 	}
 

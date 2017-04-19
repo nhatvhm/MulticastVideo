@@ -50,6 +50,9 @@ public class ClientSync implements Runnable {
 	//
 
 	public void connectToHost() {
+
+		System.out.println("Trying to connect to host...");
+
 		try {
 			Socket socket = new Socket(hostName, hostPort);
 
@@ -65,9 +68,11 @@ public class ClientSync implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("Host connected!");
 	}
 
-	public void Pingable() {
+	public void pingable() {
 		while(waitForPings) {
 			System.out.println("Client is waiting for pings...");
 
@@ -79,6 +84,8 @@ public class ClientSync implements Runnable {
 
 				clientUDPSocket.receive(packet);
 
+				System.out.println("Ping received!");
+
 				// We immediately send a packet back. Then figure out if we should
 				// keep waiting for more pings.
 
@@ -87,8 +94,11 @@ public class ClientSync implements Runnable {
 				packet = new DatagramPacket(buf, buf.length, address, port);
 				clientUDPSocket.send(packet);
 
+				System.out.println("Response sent back to server!");
+
 				// Check to see if buf[0] is equal to a specific flag.
 				if(buf[0] == Constants.Network.STOP_WAITING_FOR_PINGS) {
+					System.out.println("That was the last ping. No longer waiting!");
 					waitForPings = false;
 				}
 
@@ -120,7 +130,7 @@ public class ClientSync implements Runnable {
 
 		connectToHost();
 
-		Pingable();
+		pingable();
 
 		while( running ) {
 
