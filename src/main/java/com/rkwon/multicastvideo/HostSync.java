@@ -118,6 +118,8 @@ public class HostSync implements Runnable {
 				InetAddress address = cc.addr;
 				int port = cc.udpPort; // Wrong port for ping?
 
+				System.out.println("Sending ping to " + address.toString() + ":" + port);
+
 				long currentTime = System.currentTimeMillis();
 
 				byte[] buf = new byte[1];
@@ -125,15 +127,23 @@ public class HostSync implements Runnable {
 				if(lastPing)
 					buf[0] = Constants.Network.STOP_WAITING_FOR_PINGS;
 				//byte[] buf = Utils.longToBytes(currentTime);
-				
-				try {
-					DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-					pingSocket.send(packet);
 
-					DatagramPacket receipt = new DatagramPacket(buf, buf.length);
-					pingSocket.receive(receipt);
-				} catch(IOException e) {
-					e.printStackTrace();
+				boolean successfulReceipt = false;
+				while(! successfulReceipt ) {
+					try {
+						DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+						pingSocket.send(packet);
+
+
+						pingSocket.setSoTimeout((int) cc.averageLatencyInMillis());
+						DatagramPacket receipt = new DatagramPacket(buf, buf.length);
+						pingSocket.receive(receipt);
+						successfulReceipt = true;
+					} catch (SocketTimeoutException e) {
+						System.out.println("Did not receive a response in " + cc.averageLatencyInMillis() + " ms, trying again...");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 				long timeDifference = (System.currentTimeMillis() - currentTime) / 2;
@@ -222,5 +232,18 @@ class ClientConnection {
 
 	public void addLatencyNumber(long latencyVal) {
 		latencyEstimates.add(latencyVal);
+	}
+
+	public long averageLatencyInMillis() {
+		if(latencyEstimates.size() == 0) {
+			return 10000l;
+		} else {
+			long average = 0;
+			for(long estimate : latencyEstimates)
+				average += estimate;
+
+			return average / latencyEstimates.size();
+		}
+
 	}
 }
