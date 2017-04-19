@@ -124,8 +124,19 @@ public class HostSync implements Runnable {
 
 				byte[] buf = new byte[9];
 
-				if(lastPing)
-					buf[9] = Constants.Network.STOP_WAITING_FOR_PINGS;
+				// If this is the last ping, we set the last byte to be our LAST_PING flag, and 
+				// tell the client how much they should buffer before playing.
+				if(lastPing) {
+					buf[8] = Constants.Network.STOP_WAITING_FOR_PINGS;
+
+					long initialBufferingAmount = cc.averageLatencyInMillis() + Constants.Latency.ADDED_BUFFER_TIME;
+
+					// TODO: The expression below is wrong, and not what we want it to be. Check my paper to find the
+					// correct expression.
+					Utils.inPlaceLongToBytes(initialBufferingAmount, buf);
+
+					System.out.println("Telling client to set initial buffering time to " + initialBufferingAmount);
+				}
 				//byte[] buf = Utils.longToBytes(currentTime);
 
 				boolean successfulReceipt = false;

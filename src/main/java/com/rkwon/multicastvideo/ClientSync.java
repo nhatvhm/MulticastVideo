@@ -18,6 +18,8 @@ public class ClientSync implements Runnable {
 
 	public EmbeddedMediaPlayer player;
 
+	public long initialBuffer;
+
 	public ClientSync(EmbeddedMediaPlayer mediaPlayer, String hostName, int hostPort) {
 		player = mediaPlayer;
 		this.hostName = hostName;
@@ -97,9 +99,12 @@ public class ClientSync implements Runnable {
 				System.out.println("Response sent back to server!");
 
 				// Check to see if the last byte is equal to a specific flag.
-				if(buf[9] == Constants.Network.STOP_WAITING_FOR_PINGS) {
+				if(buf[8] == Constants.Network.STOP_WAITING_FOR_PINGS) {
 					System.out.println("That was the last ping. No longer waiting!");
 					waitForPings = false;
+					initialBuffer = Utils.bytesToLong(buf);
+
+					System.out.println("Client told to buffer for " + initialBuffer + " ms!");
 				}
 
 			} catch (IOException e) {
