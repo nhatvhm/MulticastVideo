@@ -76,7 +76,7 @@ public class ClientSync implements Runnable {
 		while(waitForPings) {
 			System.out.println("Client is waiting for pings...");
 
-			byte[] buf = new byte[1];
+			byte[] buf = new byte[9];
 
 			try {
 
@@ -96,8 +96,8 @@ public class ClientSync implements Runnable {
 
 				System.out.println("Response sent back to server!");
 
-				// Check to see if buf[0] is equal to a specific flag.
-				if(buf[0] == Constants.Network.STOP_WAITING_FOR_PINGS) {
+				// Check to see if the last byte is equal to a specific flag.
+				if(buf[9] == Constants.Network.STOP_WAITING_FOR_PINGS) {
 					System.out.println("That was the last ping. No longer waiting!");
 					waitForPings = false;
 				}

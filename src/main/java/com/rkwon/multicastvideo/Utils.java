@@ -34,6 +34,14 @@ public class Utils {
 	    return result;
     }
 
+    // An in-place version of the above method.
+    public static void inPlaceLongToBytes(long l, byte[] buffer) {
+        for (int i = 7; i >= 0; i--) {
+            buffer[i] = (byte)(l & 0xFF);
+            l >>= 8;
+        }
+    }
+
     public static long bytesToLong(byte[] b) {
 	    long result = 0;
 	    for (int i = 0; i < 8; i++) {

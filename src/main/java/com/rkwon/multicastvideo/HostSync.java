@@ -116,20 +116,22 @@ public class HostSync implements Runnable {
 			for(ClientConnection cc : clients.values()) {
 
 				InetAddress address = cc.addr;
-				int port = cc.udpPort; // Wrong port for ping?
+				int port = cc.udpPort; 
 
 				System.out.println("Sending ping to " + address.toString() + ":" + port);
 
 				long currentTime = System.currentTimeMillis();
 
-				byte[] buf = new byte[1];
+				byte[] buf = new byte[9];
 
 				if(lastPing)
-					buf[0] = Constants.Network.STOP_WAITING_FOR_PINGS;
+					buf[9] = Constants.Network.STOP_WAITING_FOR_PINGS;
 				//byte[] buf = Utils.longToBytes(currentTime);
 
 				boolean successfulReceipt = false;
+
 				while(! successfulReceipt ) {
+
 					try {
 						DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 						pingSocket.send(packet);
@@ -144,6 +146,7 @@ public class HostSync implements Runnable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+
 				}
 
 				long timeDifference = (System.currentTimeMillis() - currentTime) / 2;
