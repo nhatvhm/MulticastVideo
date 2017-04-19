@@ -14,6 +14,7 @@ Constants.class
 Host.class
 Test$2$1.class
 Client.class
+ClientSyncTest.class
 Test$6.class
 Test$1.class
 Constants$Network.class
