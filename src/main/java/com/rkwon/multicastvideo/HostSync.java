@@ -75,6 +75,10 @@ public class HostSync implements Runnable {
 				String clientData;
 				Socket clientSocket = serverSocket.accept();
 
+				// Tell the client that they've connected.
+				// PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				// out.println("1");
+
 				// We should receive a UDP Port Number from the client.
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				int clientUDPPort = Integer.parseInt(in.readLine());
@@ -102,12 +106,12 @@ public class HostSync implements Runnable {
 	}
 
 	// Talk to all connected clients and attempt to estimate RTT (Round-Trip-Time) of a message.
-	public void ping() {
+	public void ping(boolean lastPing) {
 
 		System.out.println("Host is sending a ping...");
 		
 		try {
-			DatagramSocket pingSocket = new DatagramSocket(4445);
+			DatagramSocket pingSocket = new DatagramSocket(Constants.Network.HOST_UDP_PORT);
 
 			for(ClientConnection cc : clients.values()) {
 
@@ -115,7 +119,12 @@ public class HostSync implements Runnable {
 				int port = cc.port; // Wrong port for ping?
 
 				long currentTime = System.currentTimeMillis();
-				byte[] buf = Utils.longToBytes(currentTime);
+
+				byte[] buf = new byte[1];
+
+				if(lastPing)
+					buf[0] = Constants.Network.STOP_WAITING_FOR_PINGS;
+				//byte[] buf = Utils.longToBytes(currentTime);
 				
 				try {
 					DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);

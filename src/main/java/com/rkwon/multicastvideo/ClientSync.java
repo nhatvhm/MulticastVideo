@@ -12,6 +12,7 @@ public class ClientSync implements Runnable {
 	public DatagramSocket clientUDPSocket;
 	public int clientUDPPort;
 
+	public boolean waitForPings = true;
 	public boolean running = true;
 	public boolean receivedBufferLength = false;
 
@@ -43,6 +44,11 @@ public class ClientSync implements Runnable {
 
 	}
 
+	/////////////////////////////////////////////////////
+	//
+	// INTERNAL METHODS
+	//
+
 	public void connectToHost() {
 		try {
 			Socket socket = new Socket(hostName, hostPort);
@@ -58,6 +64,37 @@ public class ClientSync implements Runnable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void Pingable() {
+		while(waitForPings) {
+			System.out.println("Client is waiting for pings...");
+
+			byte[] buf = new byte[1];
+
+			try {
+
+				DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+				clientUDPSocket.receive(packet);
+
+				// We immediately send a packet back. Then figure out if we should
+				// keep waiting for more pings.
+
+				InetAddress address = packet.getAddress();
+				int port = packet.getPort();
+				packet = new DatagramPacket(buf, buf.length, address, port);
+				clientUDPSocket.send(packet);
+
+				// Check to see if buf[0] is equal to a specific flag.
+				if(buf[0] == Constants.Network.STOP_WAITING_FOR_PINGS) {
+					waitForPings = false;
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -80,6 +117,11 @@ public class ClientSync implements Runnable {
 
 	@Override
 	public void run() {
+
+		connectToHost();
+
+		Pingable();
+
 		while( running ) {
 
 		}
