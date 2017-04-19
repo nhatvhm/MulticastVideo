@@ -52,6 +52,8 @@ public class ClientSync implements Runnable {
 			// Print out UDP Port.
 			out.println(clientUDPPort);
 
+			socket.close(); // Unsure if necessary/desirable.
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
