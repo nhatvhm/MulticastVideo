@@ -30,7 +30,7 @@ public class NetworkLog {
 	}
 
 	// A helper method to add a datapoint to our log.
-	private void addToLog(NetworkDatum dataPoint) {
+	public void add(NetworkDatum dataPoint) {
 		data.add(dataPoint);
 	}
 }

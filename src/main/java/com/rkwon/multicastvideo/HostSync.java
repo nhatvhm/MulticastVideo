@@ -205,15 +205,17 @@ public class HostSync implements Runnable {
 		while(keepRunning) {
 
 			try {
-				String clientData;
 				Socket clientSocket = serverSocket.accept();
-				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				ObjectInputStream inputData = new ObjectInputStream(clientSocket.getInputStream());
 
-				while((clientData = in.readLine()) != null) {
-					// Process clientData and submit it to NetworkLog and
-					// use it to measure relevant data points.
+				try {
+					NetworkDatum nd = (NetworkDatum) inputData.readObject();
+					networkLog.add(nd);
+
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
 				}
+
 			} catch(IOException e) {
 				networkLog.registerError();
 			}

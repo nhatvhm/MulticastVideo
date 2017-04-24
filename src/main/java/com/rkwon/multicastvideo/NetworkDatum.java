@@ -1,8 +1,9 @@
 import java.awt.Dimension;
+import java.io.Serializable;
 
 // A wrapper class around a single point of interesting/relevant network data.
 // Intended to be exchanged between clients and the host for data aggregation.
-public class NetworkDatum {
+public class NetworkDatum implements Serializable {
     
     public String username; // username of the sender
     
