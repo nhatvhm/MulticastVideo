@@ -20,9 +20,11 @@ public class HostSync implements Runnable {
 	public int averageVideoPositionAmongClients = 0;
 	public HashMap<String, ClientConnection> clients;
 
+	public long bufferTime = 0;
+
 	// Probably want a hashmap from IP Addresses to relevant client data?
 
-	public HostSync(int portNumber) {
+	public HostSync(int portNumber, long bufferTime) {
 
 		try {
 			hostAddress = Utils.getIP();
@@ -30,6 +32,8 @@ public class HostSync implements Runnable {
 			e.printStackTrace();
 			hostAddress = "ERROR"; // Good idea? Not sure. Probably not. Look into.
 		}
+
+		this.bufferTime = bufferTime;
 
 		this.portNumber = portNumber;
 		networkLog = new NetworkLog();
@@ -105,6 +109,17 @@ public class HostSync implements Runnable {
 
 	}
 
+	// Calculate the initial buffer time for a client before they begin playback.
+	public long calculateInitialBufferTimeForClient(ClientConnection client, long initialBufferTime) {
+		long maxLatency = -1;
+
+		for (ClientConnection cc : clients.values()) {
+			maxLatency = Math.max(maxLatency, cc.averageLatencyInMillis());
+		}
+
+		return maxLatency - client.averageLatencyInMillis() + initialBufferTime;
+	}
+
 	// Talk to all connected clients and attempt to estimate RTT (Round-Trip-Time) of a message.
 	public void ping(boolean lastPing) {
 
@@ -135,13 +150,11 @@ public class HostSync implements Runnable {
 					if(lastPing) {
 						buf[8] = Constants.Network.STOP_WAITING_FOR_PINGS;
 
-						long initialBufferingAmount = cc.averageLatencyInMillis() + Constants.Latency.ADDED_BUFFER_TIME;
+						long bufferingAmount = calculateInitialBufferTimeForClient(cc, bufferTime);
 
-						// TODO: The expression below is wrong, and not what we want it to be. Check my paper to find the
-						// correct expression.
-						Utils.inPlaceLongToBytes(initialBufferingAmount, buf);
+						Utils.inPlaceLongToBytes(bufferingAmount, buf);
 
-						System.out.println("Telling client to set initial buffering time to " + initialBufferingAmount);
+						System.out.println("Telling client to set initial buffering time to " + bufferingAmount);
 					}
 
 					try {
