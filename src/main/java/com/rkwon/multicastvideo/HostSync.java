@@ -22,7 +22,7 @@ public class HostSync implements Runnable {
 
 	// Probably want a hashmap from IP Addresses to relevant client data?
 
-	public HostSync() {
+	public HostSync(int portNumber) {
 
 		try {
 			hostAddress = Utils.getIP();
@@ -31,7 +31,7 @@ public class HostSync implements Runnable {
 			hostAddress = "ERROR"; // Good idea? Not sure. Probably not. Look into.
 		}
 
-		portNumber = Constants.Network.HOST_SYNC_PORT;
+		this.portNumber = portNumber;
 		networkLog = new NetworkLog();
 		clients = new HashMap<String, ClientConnection>();
 		

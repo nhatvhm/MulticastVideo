@@ -2,7 +2,7 @@ public class HostSyncTest {
 
 	public static void main(String[] args) throws Exception {
 
-		HostSync host = new HostSync();
+		HostSync host = new HostSync(Constants.Network.HOST_SYNC_PORT);
 		Thread hostThread = new Thread(host);
 		System.out.println("HOST IP ADDRESS: " + host.hostAddress);
 
