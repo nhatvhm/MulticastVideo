@@ -26,26 +26,11 @@ public class NetworkLog {
 
 	// Register an error.
 	public void registerError() {
-		addToLog(new NetworkDatum(ERROR, ERROR));
+		//addToLog(new NetworkDatum(ERROR, ERROR));
 	}
 
 	// A helper method to add a datapoint to our log.
 	private void addToLog(NetworkDatum dataPoint) {
 		data.add(dataPoint);
-	}
-
-
-	// A wrapper class around a single point of interesting/relevant network data.
-	class NetworkDatum {
-
-		public String type;
-		public Date messageReceived = new Date();
-		public String sourceIdentifier;
-
-		public NetworkDatum(String eventType, String id) {
-			type = eventType;
-			sourceIdentifier = id;
-		}
-
 	}
 }

@@ -114,20 +114,24 @@ public class ClientSync implements Runnable {
 	}
 
 	public void sendLogMessage() {
-		try {
-			Socket socket = new Socket(hostName, hostPort);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+		while(running) {
 
-			// TODO: Send more useful information!
-			float pos = player.getPosition();
+			try {
+				Socket socket = new Socket(hostName, hostPort);
+				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-			out.println(pos);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+				// TODO: Send more useful information!
+				float pos = player.getPosition();
+
+				out.println(pos);
+
+				socket.close();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	@Override

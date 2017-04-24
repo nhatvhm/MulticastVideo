@@ -10,7 +10,6 @@ RTPpacket.class
 NetworkLog.class
 ClientApplication.class
 Test$4.class
-NetworkLog$NetworkDatum.class
 Constants.class
 Host.class
 Test$2$1.class
@@ -21,6 +20,7 @@ Test$1.class
 Constants$Network.class
 Test$5.class
 ClientConnection.class
+NetworkDatum.class
 HostSync.class
 Test$3.class
 Browser.class
