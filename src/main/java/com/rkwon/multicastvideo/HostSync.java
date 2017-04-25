@@ -206,11 +206,18 @@ public class HostSync implements Runnable {
 
 			try {
 				Socket clientSocket = serverSocket.accept();
+
+				System.out.println("Accepted a client for a NetworkDatum log!");
+				
 				ObjectInputStream inputData = new ObjectInputStream(clientSocket.getInputStream());
+
+				System.out.println("Trying to add NetworkDatum to our list...");
 
 				try {
 					NetworkDatum nd = (NetworkDatum) inputData.readObject();
 					networkLog.add(nd);
+
+					System.out.println("NetworkDatum added!");
 
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();

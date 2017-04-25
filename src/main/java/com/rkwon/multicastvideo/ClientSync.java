@@ -125,9 +125,12 @@ public class ClientSync implements Runnable {
 		while(running) {
 
 			try {
+				System.out.println("Trying to connect to host for log message...");
+
 				Socket socket = new Socket(hostName, hostPort);
 				ObjectOutputStream outputData = new ObjectOutputStream(socket.getOutputStream());
 				
+				System.out.println("Creating NetworkDatum object...");
 				NetworkDatum nd = new NetworkDatum(username,
 																					 
 																					 player.getAspectRatio(),
@@ -147,9 +150,12 @@ public class ClientSync implements Runnable {
 																					 player.getVideoDimension()
 																					 );
 				
+				System.out.println("Sending NetworkDatum object.");
 				outputData.writeObject(nd);
 
 				socket.close();
+
+				System.out.println("Socket closed with host.");
 
 				Thread.sleep(DELAY_BETWEEN_LOG_MESSAGES);
 
@@ -170,8 +176,6 @@ public class ClientSync implements Runnable {
 
 		pingable();
 
-		while( running ) {
-
-		}
+		sendLogMessage();
 	}
 }
