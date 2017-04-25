@@ -55,6 +55,18 @@ public class HostSync implements Runnable {
 		keepReceivingClients = false;
 	}
 
+	public void stopRunning() {
+		keepRunning = false;
+	}
+
+	// Record our logged data in a CSV file.
+	public void logToCSV(String folderName) {
+		String fileName = networkLog.generateFileName("csv");
+		fileName = folderName + "/" + fileName;
+
+		networkLog.toCSV(fileName);
+	}
+
 
 	/////////////////////////////////////////////////////
 	//
@@ -200,7 +212,8 @@ public class HostSync implements Runnable {
 		} catch(SocketException e) {
 			e.printStackTrace();
 		}
-		
+
+		System.out.println("Beginning logging...");		
 
 		while(keepRunning) {
 

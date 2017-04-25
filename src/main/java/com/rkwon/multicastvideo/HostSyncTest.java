@@ -16,6 +16,6 @@ public class HostSyncTest {
 		host.ping(false);
 		host.ping(true);
 
-
+		
 	}
 }
