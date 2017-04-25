@@ -61,10 +61,13 @@ public class HostSync implements Runnable {
 
 	// Record our logged data in a CSV file.
 	public void logToCSV(String folderName) {
+		System.out.println("Beginning to send logs to file...");
+
 		String fileName = networkLog.generateFileName("csv");
 		fileName = folderName + "/" + fileName;
 
 		networkLog.toCSV(fileName);
+		System.out.println("Logs saved!");
 	}
 
 
@@ -113,7 +116,11 @@ public class HostSync implements Runnable {
 				// We timed out without receiving a client.
 			} catch(IOException e) {
 				e.printStackTrace();
-			} 
+			} catch(NumberFormatException e) {
+
+				// TODO: FIGURE OUT WHY THIS IS TRIGGERED AT THE END OF LOGGING SESSIONS.
+				e.printStackTrace();
+			}
 
 		}
 
@@ -230,7 +237,7 @@ public class HostSync implements Runnable {
 					NetworkDatum nd = (NetworkDatum) inputData.readObject();
 					networkLog.add(nd);
 
-					System.out.println("NetworkDatum added!");
+					System.out.println("NetworkDatum added from " + nd.username + " at playback time: " + nd.time);
 
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();

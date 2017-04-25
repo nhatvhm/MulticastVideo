@@ -123,11 +123,13 @@ public class ClientSync implements Runnable {
 
 	public void sendLogMessage() {
 		while(running) {
+			Socket socket = null;
+			System.out.println(player.getAspectRatio());
 
 			try {
 				System.out.println("Trying to connect to host for log message...");
 
-				Socket socket = new Socket(hostName, hostPort);
+				socket = new Socket(hostName, hostPort);
 				ObjectOutputStream outputData = new ObjectOutputStream(socket.getOutputStream());
 				
 				System.out.println("Creating NetworkDatum object...");
@@ -165,7 +167,21 @@ public class ClientSync implements Runnable {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				try {
+					System.out.println("Error occurred trying to send network datum. Waiting...");
+					Thread.sleep(DELAY_BETWEEN_LOG_MESSAGES);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+			} finally {
+				try {
+					socket.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} 
 		}
 	}
 

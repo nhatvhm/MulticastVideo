@@ -42,8 +42,8 @@ public class NetworkLog {
 	public String generateFileName(String fileFormat) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("VideoSessionData ");
-		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+		sb.append("VideoSessionData_");
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss");
 		sb.append(dateFormat.format(sessionStart));
 
 		sb.append('.');
@@ -56,7 +56,9 @@ public class NetworkLog {
 	public void toCSV(String file) {
 
 		try {
-			//File outFile = new File(file);
+			File outFile = new File(file);
+			outFile.createNewFile(); // if file already exists will do nothing 
+			
 			StringBuilder sb = new StringBuilder();
 	
 			// We append the columns
@@ -66,10 +68,14 @@ public class NetworkLog {
 			// Now we append the actual data points.
 			for(NetworkDatum point : data) {
 				sb.append(point.toCSVLine());
+				sb.append("\n");
 			}
 
-			PrintWriter writer = new PrintWriter(file);
+			PrintWriter writer = new PrintWriter(outFile);
+			System.out.println("Writing this to file...\n" + sb.toString());
 			writer.print(sb.toString());
+
+			writer.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
