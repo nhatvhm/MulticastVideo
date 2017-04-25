@@ -6,6 +6,9 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 public class ClientSync implements Runnable {
 
+	// Used to identify computers when looking at the log.
+	public String username;
+
 	public String hostName;
 	public int hostPort;
 
@@ -21,6 +24,8 @@ public class ClientSync implements Runnable {
 	public long initialBuffer;
 
 	public ClientSync(EmbeddedMediaPlayer mediaPlayer, String hostName, int hostPort) {
+		username = System.getProperty("user.name");
+
 		player = mediaPlayer;
 		this.hostName = hostName;
 		this.hostPort = hostPort;
@@ -118,12 +123,28 @@ public class ClientSync implements Runnable {
 
 			try {
 				Socket socket = new Socket(hostName, hostPort);
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				ObjectOutputStream outputData = new ObjectOutputStream(socket.getOutputStream());
+				
+				NetworkDatum nd = new NetworkDatum(username,
+																					 
+																					 player.getAspectRatio(),
+																					 player.getAudioChannel(),
+																					 player.getAudioDelay(),
 
-				// TODO: Send more useful information!
-				float pos = player.getPosition();
+																					 player.getFps(),
+																					 player.getLength(),
 
-				out.println(pos);
+																					 player.getPosition(),
+
+																					 player.getTime(),
+
+																					 player.getRate(),
+																					 player.getScale(),
+
+																					 player.getVideoDimension()
+																					 );
+				
+				outputData.writeObject(nd);
 
 				socket.close();
 			} catch (UnknownHostException e) {
