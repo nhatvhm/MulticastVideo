@@ -6,6 +6,9 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 public class ClientSync implements Runnable {
 
+	// Class Constants
+	public static final long DELAY_BETWEEN_LOG_MESSAGES = 3000;
+
 	// Used to identify computers when looking at the log.
 	public String username;
 
@@ -147,9 +150,14 @@ public class ClientSync implements Runnable {
 				outputData.writeObject(nd);
 
 				socket.close();
+
+				Thread.sleep(DELAY_BETWEEN_LOG_MESSAGES);
+
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
