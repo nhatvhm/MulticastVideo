@@ -1,4 +1,6 @@
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.*;
@@ -35,13 +37,43 @@ public class NetworkLog {
 	}
 
 	// Generates a file name
-	public String generateFileName() {
-		//File file = new File(
-		return "";
+	//
+	// @param fileFormat Currently we only accept "csv"
+	public String generateFileName(String fileFormat) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("VideoSessionData ");
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+		sb.append(dateFormat.format(sessionStart));
+
+		sb.append('.');
+		sb.append(fileFormat);
+
+		return sb.toString();
 	}
 
 	// Records data into the target file.
 	public void toCSV(String file) {
+
+		try {
+			//File outFile = new File(file);
+			StringBuilder sb = new StringBuilder();
+	
+			// We append the columns
+			sb.append("USERNAME,TIME,DATE,ASPECT_RATIO,AUDIO_CHANNEL,AUDIO_DELAY,FPS,MEDIA_LENGTH,POSITION,TIME,VIDEO_PLAY_RATE,SCALE,WINDOW_HEIGHT,WINDOW_WIDTH");
+			sb.append("\n");
+
+			// Now we append the actual data points.
+			for(NetworkDatum point : data) {
+				sb.append(point.toCSVLine());
+			}
+
+			PrintWriter writer = new PrintWriter(file);
+			writer.print(sb.toString());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 }
