@@ -1,11 +1,15 @@
-import java.awt.Dimension;
+import java.util.Date;
+import java.util.Calendar;
 import java.io.Serializable;
+import java.awt.Dimension;
 
 // A wrapper class around a single point of interesting/relevant network data.
 // Intended to be exchanged between clients and the host for data aggregation.
 public class NetworkDatum implements Serializable {
   
   public String username; // username of the sender
+
+	public Date creationDate;
   
   // Data components.
   public String aspectRatio;
@@ -46,6 +50,8 @@ public class NetworkDatum implements Serializable {
 											Dimension videoDimension			
 											) {
 
+		creationDate = new Date();
+
 		this.username = username;
 
 		this.aspectRatio = aspectRatio;
@@ -72,6 +78,23 @@ public class NetworkDatum implements Serializable {
 
 		sb.append(username + ",");
 
+		// Now we append the time and date
+		// Man. The Java Calendar class is REALLY weird.
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(creationDate);
+		int hours = calendar.get(Calendar.HOUR_OF_DAY);
+		int minutes = calendar.get(Calendar.MINUTE);
+		int seconds = calendar.get(Calendar.SECOND);
+
+		sb.append(hours + ":" + minutes + ":" + seconds + ",");
+
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1; // Starts at 0
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+		sb.append(month + ":" + day + ":" + year + ",");
+
+		// Go back to appending data items.
 		sb.append(aspectRatio + ",");
 		sb.append(audioChannel + ",");
 		sb.append(audioDelay + ",");
