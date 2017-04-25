@@ -1,5 +1,7 @@
 import java.util.Date;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.io.Serializable;
 import java.awt.Dimension;
 
@@ -79,20 +81,9 @@ public class NetworkDatum implements Serializable {
 		sb.append(username + ",");
 
 		// Now we append the time and date
-		// Man. The Java Calendar class is REALLY weird.
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(creationDate);
-		int hours = calendar.get(Calendar.HOUR_OF_DAY);
-		int minutes = calendar.get(Calendar.MINUTE);
-		int seconds = calendar.get(Calendar.SECOND);
-
-		sb.append(hours + ":" + minutes + ":" + seconds + ",");
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1; // Starts at 0
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-		sb.append(month + ":" + day + ":" + year + ",");
+		// Note, this creates TWO columns.
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss,MM/dd/yyyy,");
+		sb.append(dateFormat.format(creationDate));
 
 		// Go back to appending data items.
 		sb.append(aspectRatio + ",");

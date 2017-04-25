@@ -33,4 +33,15 @@ public class NetworkLog {
 	public void add(NetworkDatum dataPoint) {
 		data.add(dataPoint);
 	}
+
+	// Generates a file name
+	public String generateFileName() {
+		//File file = new File(
+		return "";
+	}
+
+	// Records data into the target file.
+	public void toCSV(String file) {
+		
+	}
 }
