@@ -9,7 +9,8 @@ public class HostSyncTest {
 		NativeDiscovery nativeDiscovery = new NativeDiscovery();
 		nativeDiscovery.discover();
 
-		String media = "src/main/resources/FFbyMitski.mp4";
+		//String media = "src/main/resources/FFbyMitski.mp4";
+		String media = "screen://";
 
 		String[] fakeArgs = {media};
 
