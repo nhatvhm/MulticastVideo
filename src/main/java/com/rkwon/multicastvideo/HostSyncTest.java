@@ -9,8 +9,8 @@ public class HostSyncTest {
 		NativeDiscovery nativeDiscovery = new NativeDiscovery();
 		nativeDiscovery.discover();
 
-		//String media = "src/main/resources/FFbyMitski.mp4";
-		String media = "screen://";
+		String media = "src/main/resources/FFbyMitski.mp4";
+		//String media = "screen://";
 
 		String[] fakeArgs = {media};
 
@@ -28,24 +28,26 @@ public class HostSyncTest {
 		System.out.println("BEGINNING HOST SYNC...");
 
 		HostSync host = new HostSync(Constants.Network.HOST_SYNC_PORT, 3000);
-		Thread hostThread = new Thread(host);
+		//Thread hostThread = new Thread(host);
+		HostInterface hostInterface = new HostInterface(host);
+
 		System.out.println("HOST IP ADDRESS: " + host.hostAddress);
 
-		hostThread.start();
-		Thread.sleep(5000);
-		System.out.println("Telling host to stop receiving clients.");
-		host.stopAcceptingClients();
+		//hostThread.start();
+		//Thread.sleep(5000);
+		//System.out.println("Telling host to stop receiving clients.");
+		//host.stopAcceptingClients();
 
-		host.ping(false);
-		host.ping(false);
-		host.ping(false);
-		host.ping(true);
+		//host.ping(false);
+		//host.ping(false);
+		//host.ping(false);
+		//host.ping(true);
 
 		mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
 
-		Thread.sleep(20000);
+		//Thread.sleep(20000);
 
-		host.logToCSV("logs");
+		//host.logToCSV("logs");
 
 		/*
 		try {
