@@ -10,6 +10,7 @@ public class ClientSync implements Runnable {
 	public static final long DELAY_BETWEEN_LOG_MESSAGES = 3000;
 
 	// Used to identify computers when looking at the log.
+	// Will be IP Address.
 	public String username;
 
 	public String hostName;
@@ -26,8 +27,15 @@ public class ClientSync implements Runnable {
 
 	public long initialBuffer;
 
+	public String mrl;
+
 	public ClientSync(EmbeddedMediaPlayer mediaPlayer, String hostName, int hostPort) {
-		username = System.getProperty("user.name");
+		try {
+			username = Utils.getIP();
+		} catch (Exception e) {
+			e.printStackTrace();
+			username = "UNKNOWN IP ADDRESS";
+		}
 
 		player = mediaPlayer;
 		this.hostName = hostName;
@@ -66,10 +74,15 @@ public class ClientSync implements Runnable {
 		try {
 			Socket socket = new Socket(hostName, hostPort);
 
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 			// Print out UDP Port.
 			out.println(clientUDPPort);
+
+			// We should get back our media resource location
+			mrl = in.readLine();
+
 
 			socket.close(); // Unsure if necessary/desirable.
 

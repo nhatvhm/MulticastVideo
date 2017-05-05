@@ -58,6 +58,7 @@ class HostInterface implements ActionListener {
 			}
 
 			host.ping(true);
+			
 		} else if(e.getActionCommand().equals("Write all logs to CSV")) {
 			host.logToCSV("logs");
 		}

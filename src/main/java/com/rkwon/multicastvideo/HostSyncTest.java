@@ -27,7 +27,7 @@ public class HostSyncTest {
 		System.out.println("________________________________\n\n\n\n\n");
 		System.out.println("BEGINNING HOST SYNC...");
 
-		HostSync host = new HostSync(Constants.Network.HOST_SYNC_PORT, 3000);
+		HostSync host = new HostSync(Constants.Network.HOST_SYNC_PORT, 3000, publicIP, publicPort);
 		//Thread hostThread = new Thread(host);
 		HostInterface hostInterface = new HostInterface(host);
 

@@ -12,6 +12,9 @@ public class HostSync implements Runnable {
 	public boolean keepRunning = true;
 	public boolean keepReceivingClients = true;
 
+	public String streamAddress;
+	public int streamPort;
+
 	public String hostAddress;
 	public int portNumber;
 	public ServerSocket serverSocket;
@@ -24,7 +27,7 @@ public class HostSync implements Runnable {
 
 	// Probably want a hashmap from IP Addresses to relevant client data?
 
-	public HostSync(int portNumber, long bufferTime) {
+	public HostSync(int portNumber, long bufferTime, String streamAddress, int streamPort) {
 
 		try {
 			hostAddress = Utils.getIP();
@@ -36,6 +39,8 @@ public class HostSync implements Runnable {
 		this.bufferTime = bufferTime;
 
 		this.portNumber = portNumber;
+		this.streamAddress = streamAddress;
+		this.streamPort = streamPort;
 		networkLog = new NetworkLog();
 		clients = new HashMap<String, ClientConnection>();
 		
@@ -110,6 +115,10 @@ public class HostSync implements Runnable {
 				System.out.println("Host received a client with identifier: " + identifier);
 
 				clients.put(identifier, new ClientConnection(addr, port, clientUDPPort));
+
+				// We should tell the client what IP address they should connect to.
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				out.println("rtp://" + streamAddress + ":" + streamPort);
 				
 			} catch(SocketTimeoutException e) {
 				System.out.println("Host timed out without receiving a client. Trying again.");
