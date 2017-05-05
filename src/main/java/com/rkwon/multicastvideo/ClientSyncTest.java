@@ -22,9 +22,10 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.binding.internal.libvlc_media_stats_t;
 
 public class ClientSyncTest {
-	public static void main(String [] args) {
+	public static void main(String [] args) throws Exception {
 		System.out.println("Starting Client Sync Test");
 		System.out.println("Username is: " + System.getProperty("user.name"));
 
@@ -37,7 +38,9 @@ public class ClientSyncTest {
 		String publicIP, publicServer, localIP, localServer, clientIP;
 		short publicPort, localPort;
 
-		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(args);
+		String[] myArgs = {"--stats"};
+
+		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(myArgs);
 		EmbeddedMediaPlayer mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
 		
 		Canvas canvas = new Canvas();
@@ -62,10 +65,18 @@ public class ClientSyncTest {
 		System.out.println("________________________________\n\n\n\n\n");
 		System.out.println("BEGINNING CLIENT SYNC...");
 
+		libvlc_media_stats_t stats = mediaPlayer.getMediaStatistics();
 
 		ClientSync client = new ClientSync(mediaPlayer, "137.165.75.113", Constants.Network.HOST_SYNC_PORT);
 		Thread clientThread = new Thread(client);
 
 		clientThread.start();
+
+		while(true) {
+			Thread.sleep(1000);
+			System.out.println("___________________________");
+			System.out.println(stats.i_lost_pictures);
+			System.out.println("___________________________");
+		}
 	}
 }

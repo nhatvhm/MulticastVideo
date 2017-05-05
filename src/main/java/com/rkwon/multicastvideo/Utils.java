@@ -26,6 +26,15 @@ public class Utils {
 	    return sb.toString();
     }
 
+    public static String clientRtpStreamOptions(long buffer) {
+        String[] options = {
+                ":file-caching=0",
+                ":network-caching=" + buffer,
+                ":sout = #transcode{vcodec=x264,vb=800,scale=0.25,acodec=none,fps=23}:display :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep"};
+
+        return "";
+    }
+
     // Taken from:
     // http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java/29132118#29132118
     public static byte[] longToBytes(long l) {

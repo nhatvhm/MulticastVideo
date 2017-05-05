@@ -45,6 +45,15 @@ public class HostSyncTest {
 
 		mediaPlayer.playMedia(media, options, ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep");
 
+		/*
+		while(true) {
+			Thread.sleep(1000);
+			System.out.println("________________________________");
+			System.out.println(mediaPlayer.getFps());
+			System.out.println("________________________________");
+		}
+		*/
+
 		//Thread.sleep(20000);
 
 		//host.logToCSV("logs");
