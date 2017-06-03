@@ -1,8 +1,3 @@
-# Jars Used
-- jsoup-1.10.2 for HTML parsing.
+# NOTE:
 
-https://download.videolan.org/pub/videolan/vlc/2.1.3/win64/
-https://superuser.com/questions/612186/how-to-capture-screen-video-with-audio-using-vlc-media-player
-https://github.com/rdp/screen-capture-recorder-to-video-windows-free
-
-http://stackoverflow.com/questions/42729274/directshow-not-working-with-vlcj
+Current version uses VLC 2.1.3 in order to take advantage of screen capture. Please see pdf for a more complete idea of what has and has not been implemented.
